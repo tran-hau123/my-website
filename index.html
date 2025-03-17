@@ -3,10 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
+    <title>Tỏ tình</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin-top: 50px;
+        }
+        .btn {
+            padding: 15px 30px;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        #agree {
+            background-color: #ff4d79;
+            color: white;
+            border-radius: 10px;
+        }
+        #disagree {
+            background-color: #ccc;
+            color: black;
+            border-radius: 10px;
+        }
+        /* Style cho popup */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .popup button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #ff4d79;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        @keyframes heartBeat {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.5); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+        .heart {
+            position: fixed;
+            font-size: 30px;
+            color: red;
+            animation: heartBeat 1s infinite alternate;
+        }
+    </style>
 </head>
 <body>
-    <h1>Chào mừng bạn đến với website của tôi!</h1>
-    <p>Đây là trang web đầu tiên của tôi trên GitHub Pages.</p>
+    <h2>Chủ nhật này Em có rảnh hơm? 🥰</h2>
+
+    <button id="agree" class="btn" onclick="acceptLove()">Có chứ</button>
+    <button id="disagree" class="btn" onclick="refuseLove()">Không rảnh</button>
+
+    <!-- Popup -->
+    <div id="popup" class="popup">
+        <p>Tuyệt vời! Vậy mình cùng đi chơi nhé ❤️</p>
+        <button onclick="closePopup();"> Ấu cơ nhaa 😘</button>
+    </div>
+
+    <script>
+        let agreeBtn = document.getElementById("agree");
+        let disagreeBtn = document.getElementById("disagree");
+        let popup = document.getElementById("popup");
+        let disagreeCount = 0;
+
+        function acceptLove() {
+            popup.style.display = "block"; // Hiện popup
+        }
+
+        function closePopup() {
+            popup.style.display = "none";
+            createFloatingHearts(); // Gọi hàm tạo trái tim bay
+        }
+
+        function refuseLove() {
+            let messages = [
+                "Anh sẽ buồn đấy 😢",
+                "Anh buồn 😭",
+                "Anh buồn lắm 😔",
+                "Anh buồn mà hụ hụ 🥺"
+            ];
+
+            // Cập nhật text theo thứ tự rồi lặp lại
+            disagreeBtn.innerText = messages[disagreeCount % messages.length];
+
+            // Tăng kích thước nút "Có chứ"
+            agreeBtn.style.fontSize = (20 + disagreeCount * 5) + "px";
+
+            // Tăng biến đếm
+            disagreeCount++;
+        }
+
+        function createFloatingHearts() {
+            for (let i = 0; i < 10; i++) { // Tạo 10 trái tim
+                let heart = document.createElement("div");
+                heart.innerHTML = "❤️";
+                heart.classList.add("heart");
+                
+                // Đặt vị trí ngẫu nhiên với khoảng cách rộng hơn
+                let xOffset = Math.random() * 1000 - 150; // Dịch trái/phải trong khoảng 1000px
+                let yOffset = Math.random() * 2000 - 100; // Dịch lên/xuống trong khoảng 2000px
+                
+                heart.style.left = `calc(50% + ${xOffset}px)`;
+                heart.style.top = `calc(50% + ${yOffset}px)`;
+                heart.style.position = "fixed";
+                
+                document.body.appendChild(heart);
+                
+                // Xóa trái tim sau khi animation kết thúc
+                setTimeout(() => heart.remove(), 9000);
+            }
+        }
+    </script>
 </body>
 </html>
